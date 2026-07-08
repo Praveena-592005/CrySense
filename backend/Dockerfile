@@ -1,15 +1,11 @@
-# Use an official OpenJDK 17 runtime as a parent image
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+# /backend/Dockerfile
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the built JAR file from the backend/target directory to the container
-# Note: We assume you run 'mvn clean package' locally or via Render's build process
-COPY backend/target/*.jar app.jar
-
-# Expose port 8080
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
