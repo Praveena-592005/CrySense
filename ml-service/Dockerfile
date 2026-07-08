@@ -2,12 +2,13 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Point to the subfolder explicitly
-COPY ml-service/requirements.txt .
+# Remove 'ml-service/' prefix; since build context is 'ml-service/',
+# it will look for these files inside that folder automatically.
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all source code from the subfolder
-COPY ml-service/ .
+# Copy all source code
+COPY . .
 
 EXPOSE 5000
 
