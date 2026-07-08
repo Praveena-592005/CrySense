@@ -15,7 +15,7 @@ CLASSES = ['belly_pain', 'burping', 'cold_hot', 'discomfort', 'hungry', 'lonely'
 
 def extract_features(file_path):
     
-    y, sr = librosa.load(file_path, duration=3)
+    y, sr = librosa.load(file_path, duration=3, sr=22050, mono=True)
     
     mfcc = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40).T, axis=0)
     contrast = np.mean(librosa.feature.spectral_contrast(y=y, sr=sr).T, axis=0)
