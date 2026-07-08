@@ -14,4 +14,5 @@ COPY . .
 EXPOSE 5000
 
 # Change your existing CMD to this:
-CMD gunicorn -b 0.0.0.0:$PORT app:app
+# Use --threads to reduce memory overhead compared to multiple workers
+CMD gunicorn -b 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 app:app

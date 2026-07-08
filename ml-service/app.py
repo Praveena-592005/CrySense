@@ -15,8 +15,11 @@ CLASSES = ['belly_pain', 'burping', 'cold_hot', 'discomfort', 'hungry', 'lonely'
 
 def extract_features(file_path):
     
-    y, sr = librosa.load(file_path, duration=3, sr=22050, mono=True)
+    y, sr = librosa.load(file_path, sr=22050, mono=True)
     
+    import gc
+    gc.collect()
+
     mfcc = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40).T, axis=0)
     contrast = np.mean(librosa.feature.spectral_contrast(y=y, sr=sr).T, axis=0)
     zcr = np.mean(librosa.feature.zero_crossing_rate(y=y))
@@ -56,4 +59,4 @@ def predict():
         if os.path.exists(wav_path): os.remove(wav_path)
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=int(os.environ.get("PORT", 5000)))
