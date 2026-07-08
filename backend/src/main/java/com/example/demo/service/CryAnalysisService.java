@@ -16,7 +16,14 @@ public class CryAnalysisService {
     public String callPythonModel(String filePath) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:5000/predict";
+           
+            String baseUrl = System.getenv("ML_SERVICE_URL");
+
+            if (baseUrl == null || baseUrl.isEmpty()) {
+                baseUrl = "http://localhost:5000";
+            }
+
+            String url = baseUrl + "/predict";
             
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("file", new FileSystemResource(filePath));
