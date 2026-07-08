@@ -6,7 +6,10 @@ import os
 import uuid
 import joblib
 from pydub import AudioSegment
-
+import os
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
 app = Flask(__name__)
 CORS(app)
 
