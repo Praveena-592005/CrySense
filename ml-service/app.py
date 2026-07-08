@@ -1,15 +1,16 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import librosa
-import numpy as np
-import os
-import uuid
-import joblib
-from pydub import AudioSegment
 import os
 os.environ["MKL_NUM_THREADS"] = "1"
 os.environ["NUMEXPR_NUM_THREADS"] = "1"
 os.environ["OMP_NUM_THREADS"] = "1"
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import librosa
+import numpy as np
+import uuid
+import joblib
+from pydub import AudioSegment
+
 app = Flask(__name__)
 CORS(app)
 

@@ -5,6 +5,6 @@ numpy
 joblib
 pydub
 gunicorn
-scikit-learn==1.9.0
+scikit-learn==1.7.2
 matplotlib
 seaborn
