@@ -1,0 +1,10 @@
+flask
+flask-cors
+librosa
+numpy
+joblib
+pydub
+gunicorn
+scikit-learn
+matplotlib
+seaborn
