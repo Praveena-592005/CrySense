@@ -7,7 +7,7 @@ frontend/node_modules/
 frontend/build/
 ml-service/__pycache__/
 ml-service/*.pyc
-ml-service/model.pkl
+#ml-service/model.pkl
 
 *.tmp
 temp_*.wav

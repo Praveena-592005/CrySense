@@ -1,12 +1,14 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+# Install system dependencies including ffmpeg
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-# Since Root Directory is 'ml-service', we are already 'inside' it
+WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all source code from the current directory
 COPY . .
 
 EXPOSE 5000
