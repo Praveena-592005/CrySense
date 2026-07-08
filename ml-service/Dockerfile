@@ -2,12 +2,12 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Since the build context is the root '.', we must specify 'ml-service/'
-COPY ml-service/requirements.txt ./requirements.txt
+# Since Root Directory is 'ml-service', we are already 'inside' it
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy everything from ml-service/ to the container /app
-COPY ml-service/ .
+# Copy all source code from the current directory
+COPY . .
 
 EXPOSE 5000
 
