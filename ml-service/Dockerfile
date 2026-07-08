@@ -13,4 +13,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Change your existing CMD to this:
+CMD gunicorn -b 0.0.0.0:$PORT app:app
