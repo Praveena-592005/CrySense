@@ -13,31 +13,24 @@ import org.springframework.web.client.HttpServerErrorException;
 
 @Service
 public class CryAnalysisService {
-   public String callPythonModel(String filePath) {
-    try {
-        RestTemplate restTemplate = new RestTemplate();
-        String baseUrl = System.getenv("ML_SERVICE_URL");
-        if (baseUrl == null || baseUrl.isEmpty()) baseUrl = "http://localhost:5000";
-        String url = baseUrl + "/predict";
-        
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", new FileSystemResource(filePath));
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        
-        String response = restTemplate.postForObject(url, requestEntity, String.class);
-        
-        // ADD THIS CHECK:
-        if (response != null && response.trim().startsWith("<")) {
-            return "{\"error\": \"ML Service returned HTML instead of JSON\"}";
+    public String callPythonModel(String filePath) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:5000/predict";
+            
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", new FileSystemResource(filePath));
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            
+            return restTemplate.postForObject(url, requestEntity, String.class);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            return e.getResponseBodyAsString();
+        } catch (Exception e) {
+            return "{\"error\": \"Service unreachable\"}";
         }
-        return response;
-        
-    } catch (Exception e) {
-        return "{\"error\": \"Service unreachable: " + e.getMessage() + "\"}";
     }
-  }
 }

@@ -53,25 +53,29 @@ function App() {
 
   const audioRef = useRef(null);
 
- // Use the environment variable provided by Vercel, or fallback to localhost for development
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
-
-const handleUpload = async (fileToUpload) => {
+  const handleUpload = async (fileToUpload) => {
     setLoading(true);
+
     const formData = new FormData();
     formData.append('file', fileToUpload);
 
-    try {
-        // Use the dynamic API_URL
-        const response = await axios.post(`${API_URL}/api/analyze`, formData);
+   try {
+        const response = await axios.post('http://localhost:8080/api/analyze', formData);
         setResult(response.data); 
-    } catch (error) {
-        console.error("Error uploading file", error);
-        alert("Error: " + (error.response?.data?.error || error.message));
-    } finally {
-        setLoading(false);
     }
-};
+    catch (error) {
+
+      console.error("Error uploading file", error);
+
+      alert(
+        "Error: " +
+        (error.response?.data?.error || error.message)
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const startRecording = async () => {
 
